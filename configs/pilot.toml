@@ -1,0 +1,26 @@
+config_version = "zh-config-v0.1"
+seed = 42
+persona_count = 60
+dialogues_per_persona = 20
+min_turns = 10
+max_turns = 40
+run_dir = "../runs/pilot_v0_1_7"
+profiles_file = "profiles.json"
+topics_file = "topics.json"
+strategies_file = "strategies.json"
+persona_rules_file = "persona_rules.json"
+
+[generation]
+backend = "openai"
+# A nonempty value overrides OPENAI_API_KEY; blank uses the environment.
+api_key = ""
+#base_url = "https://api.openai.com/v1"
+base_url = "http://127.0.0.1:8317/v1"
+model = "gpt-6.1-sol"
+reasoning_effort = "low"
+service_tier = "fast"
+max_output_tokens = 8192
+max_attempts = 4
+timeout_seconds = 120
+retry_wait_seconds = 3.0
+request_pause_seconds = 0

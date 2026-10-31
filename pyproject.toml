@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gazetalk-mandarin-synthetic"
+version = "0.1.4"
+description = "Auditable Mandarin synthetic therapist-patient dialogue generation"
+requires-python = ">=3.11"
+dependencies = ["openai>=1.66.0", "jsonschema>=4.23,<5"]
+
+[project.scripts]
+gazetalk-zh = "gazetalk_zh.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gazetalk_zh = ["resources/prompts/*.txt", "resources/schemas/*.json"]

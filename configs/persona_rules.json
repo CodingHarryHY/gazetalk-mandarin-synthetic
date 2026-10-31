@@ -1,0 +1,36 @@
+{
+  "version": "persona-rules-v0.1",
+  "reference_status": "not_calibrated",
+  "age_bands": [
+    "younger adult",
+    "middle-aged adult",
+    "older adult"
+  ],
+  "occupation_categories": [
+    "education occupation",
+    "technical occupation",
+    "service occupation",
+    "administrative occupation",
+    "agricultural occupation",
+    "retail occupation",
+    "caregiving occupation",
+    "general occupation"
+  ],
+  "fatigue_sensitivities": [
+    "low",
+    "medium",
+    "high"
+  ],
+  "topics_per_persona": 5,
+  "supports_per_persona": 3,
+  "source_ids": [
+    "USER-2026-09-29",
+    "ENGLISH-REPOSITORY",
+    "ASHA-APHASIA",
+    "MANDARIN-DENG-2024",
+    "CHINESE-WANG-2021",
+    "NAA-GLOSSARY",
+    "CONDUCTION-ODELL-1995"
+  ],
+  "note": "User-reviewed design rules, not participant-derived distributions. No raw reference data were inspected."
+}

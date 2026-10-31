@@ -1,0 +1,139 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "persona_id",
+    "profile",
+    "age_band",
+    "occupation_category",
+    "severity",
+    "communication_goal",
+    "preferred_support",
+    "behaviour_profile",
+    "topics",
+    "fatigue_sensitivity"
+  ],
+  "properties": {
+    "persona_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Z0-9_]+$"
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "anomic",
+        "conduction",
+        "tcmotor",
+        "broca",
+        "wernicke",
+        "global"
+      ]
+    },
+    "age_band": {
+      "type": "string",
+      "minLength": 1
+    },
+    "occupation_category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "mild",
+        "moderate",
+        "severe"
+      ]
+    },
+    "communication_goal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "preferred_support": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "focused questions",
+          "semantic cueing",
+          "yes-no confirmation",
+          "extra response time",
+          "written keyword support"
+        ]
+      }
+    },
+    "behaviour_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grammar",
+        "sentence_length",
+        "word_finding",
+        "comprehension",
+        "repetition",
+        "initiation",
+        "self_repair",
+        "semantic_error",
+        "phonological_error"
+      ],
+      "properties": {
+        "grammar": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sentence_length": {
+          "type": "string",
+          "minLength": 1
+        },
+        "word_finding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "comprehension": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repetition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "initiation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "self_repair": {
+          "type": "string",
+          "minLength": 1
+        },
+        "semantic_error": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phonological_error": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fatigue_sensitivity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+Fictional persona:
+{persona}
+
+Session design:
+{session}
+
+Generate one complete conversation about a single concrete situation within
+the topic. In storytelling mode, help the patient recount an invented personal
+event with a beginning, relevant development, and an outcome or reflection.
+In everyday conversation mode, develop an ordinary preference, activity, need,
+or plan. Use the primary support strategy when needed, with other allowed
+strategies as appropriate; do not announce strategy names. Match complexity
+to the persona and do not require every patient to tell a detailed story.

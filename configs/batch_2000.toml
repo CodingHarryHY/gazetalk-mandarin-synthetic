@@ -1,0 +1,24 @@
+config_version = "zh-config-v0.1"
+seed = 42
+persona_count = 50
+dialogues_per_persona = 40
+min_turns = 10
+max_turns = 40
+run_dir = "../runs/batch_2000_v0_1_4"
+profiles_file = "profiles.json"
+topics_file = "topics.json"
+strategies_file = "strategies.json"
+persona_rules_file = "persona_rules.json"
+
+[generation]
+backend = "openai"
+# A nonempty value overrides OPENAI_API_KEY; blank uses the environment.
+api_key = ""
+base_url = "https://api.openai.com/v1"
+model = "gpt-6-luna"
+reasoning_effort = "low"
+max_output_tokens = 8192
+max_attempts = 4
+timeout_seconds = 120
+retry_wait_seconds = 3.0
+request_pause_seconds = 0.15

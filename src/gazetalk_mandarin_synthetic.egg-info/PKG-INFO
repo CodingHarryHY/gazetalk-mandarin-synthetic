@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: gazetalk-mandarin-synthetic
+Version: 0.1.4
+Summary: Auditable Mandarin synthetic therapist-patient dialogue generation
+Requires-Python: >=3.11
+Requires-Dist: openai>=1.66.0
+Requires-Dist: jsonschema<5,>=4.23

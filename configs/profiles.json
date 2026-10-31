@@ -1,0 +1,118 @@
+{
+  "anomic": {
+    "label": "Anomic-like",
+    "severities": [
+      "mild",
+      "moderate"
+    ],
+    "goal": "Communicate everyday ideas despite word-finding difficulty.",
+    "behaviour": {
+      "grammar": "mostly preserved",
+      "sentence_length": "variable",
+      "word_finding": "may search for a content word or describe around it when relevant",
+      "comprehension": "relatively preserved",
+      "repetition": "relatively preserved; do not add repetition tests",
+      "initiation": "can initiate and elaborate on familiar topics",
+      "self_repair": "may retry a word or accept a cue; success varies",
+      "semantic_error": "possible but not a defining requirement",
+      "phonological_error": "not required; written dialogue cannot establish speech-sound accuracy"
+    }
+  },
+  "conduction": {
+    "label": "Conduction-like",
+    "severities": [
+      "mild",
+      "moderate"
+    ],
+    "goal": "Convey intended meaning while managing word-form repairs.",
+    "behaviour": {
+      "grammar": "relatively preserved",
+      "sentence_length": "variable",
+      "word_finding": "may search for or revise a word form",
+      "comprehension": "relatively preserved",
+      "repetition": "may be harder than understanding when naturally elicited; do not add a test",
+      "initiation": "can initiate and develop an everyday account",
+      "self_repair": "may make repeated word-form attempts with variable success",
+      "semantic_error": "not a required feature",
+      "phonological_error": "possible in speech, but do not invent Chinese spellings to simulate sound errors"
+    }
+  },
+  "tcmotor": {
+    "label": "Transcortical motor-like",
+    "severities": [
+      "mild",
+      "moderate",
+      "severe"
+    ],
+    "goal": "Initiate and expand personally meaningful messages with support.",
+    "behaviour": {
+      "grammar": "may use simpler constructions without imitating English grammar errors",
+      "sentence_length": "may be short at first and expand with grounded support",
+      "word_finding": "may vary; naming failure is not required",
+      "comprehension": "relatively preserved for simple messages",
+      "repetition": "relatively preserved if naturally relevant; do not add a test",
+      "initiation": "may offer little spontaneous elaboration before a grounded follow-up",
+      "self_repair": "may revise an answer when given time or a cue",
+      "semantic_error": "not a required feature",
+      "phonological_error": "not a required feature"
+    }
+  },
+  "broca": {
+    "label": "Broca-like",
+    "severities": [
+      "mild",
+      "moderate",
+      "severe"
+    ],
+    "goal": "Express useful information using manageable sentence structures.",
+    "behaviour": {
+      "grammar": "may use simpler Mandarin clauses; ordinary subject omission alone is not impairment",
+      "sentence_length": "may use short effortful phrases while still conveying a meaningful sequence",
+      "word_finding": "variable difficulty",
+      "comprehension": "may follow simple contextual questions more readily than complex wording",
+      "repetition": "may be difficult if naturally relevant; do not add a test",
+      "initiation": "effortful but purposeful",
+      "self_repair": "variable",
+      "semantic_error": "not required; do not insert unrelated content to signal a profile",
+      "phonological_error": "not required; written dialogue cannot establish speech-sound accuracy"
+    }
+  },
+  "wernicke": {
+    "label": "Wernicke-like",
+    "severities": [
+      "mild",
+      "moderate",
+      "severe"
+    ],
+    "goal": "Maintain shared meaning and clarify occasional misunderstandings.",
+    "behaviour": {
+      "grammar": "surface sentence structure may remain intact even when meaning is unclear",
+      "sentence_length": "can vary; fluency does not require long replies",
+      "word_finding": "may vary; naming difficulty alone does not distinguish this profile",
+      "comprehension": "may misunderstand a relevant detail; allow a specific clarification and repair",
+      "repetition": "may be difficult if naturally relevant; do not add a test",
+      "initiation": "can initiate a response without implying shared understanding",
+      "self_repair": "may notice a mismatch or need partner clarification; success varies",
+      "semantic_error": "may choose a related but mismatched word or idea; not every turn needs an error",
+      "phonological_error": "not required; written dialogue cannot establish speech-sound accuracy"
+    }
+  },
+  "global": {
+    "label": "Global-like",
+    "severities": [
+      "severe"
+    ],
+    "goal": "Express personally meaningful needs and preferences with substantial support.",
+    "behaviour": {
+      "grammar": "may rely on single words or short phrases while still conveying meaning",
+      "sentence_length": "often short; do not force every answer to the same length",
+      "word_finding": "may struggle with specific words without constant failure",
+      "comprehension": "may need short contextual questions and confirmation; not every exchange must fail",
+      "repetition": "may be difficult if naturally relevant; do not add a test",
+      "initiation": "may respond or start a simple meaningful request with support",
+      "self_repair": "may use a cue or partner confirmation to clarify meaning",
+      "semantic_error": "difficult to infer from sparse output",
+      "phonological_error": "not required; written dialogue cannot establish speech-sound accuracy"
+    }
+  }
+}

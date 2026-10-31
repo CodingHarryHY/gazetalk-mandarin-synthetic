@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "persona_id",
+    "dialogue_id",
+    "profile",
+    "session_index",
+    "session_topic",
+    "therapist_strategy",
+    "backend",
+    "model",
+    "cached",
+    "input_tokens",
+    "output_tokens",
+    "attempt",
+    "latency_local",
+    "text"
+  ],
+  "properties": {
+    "persona_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dialogue_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Z0-9_]+$"
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "anomic",
+        "conduction",
+        "tcmotor",
+        "broca",
+        "wernicke",
+        "global"
+      ]
+    },
+    "session_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "session_topic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "therapist_strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "backend": {
+      "type": "string",
+      "enum": [
+        "openai"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cached": {
+      "type": "boolean"
+    },
+    "input_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "output_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "latency_local": {
+      "type": "number",
+      "minimum": 0
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
