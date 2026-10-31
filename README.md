@@ -72,6 +72,28 @@ All relative asset paths and run_dir in TOML resolve relative to the config file
 not the current directory. Package prompts and schemas are bundled resources;
 the editable catalogs and run configs remain explicit files.
 
+## Prompt/completion conversion
+
+Convert each already-split training, validation, or test JSONL file separately,
+without changing dataset splits:
+
+~~~bash
+uv run python -m gazetalk_zh.dialogue_to_samples --input runs/pilot_v0_1_8/dialogues.jsonl --output runs/pilot_v0_1_8/samples.jsonl
+~~~
+
+Each input line must contain a `text` JSON string with a `dialogue` array of
+`speaker`/`utterance` objects. Each therapist turn except an opening turn becomes
+one sample: `prompt` contains a fixed Chinese system instruction and all preceding
+turns; `completion` contains only the target assistant message. Patient turns map
+to `user`, therapist turns to `assistant`. Text is preserved without truncation,
+and metadata is omitted. Both output fields are message arrays.
+
+The converter reports dialogue/sample counts and stops with an input line number
+on invalid records. It does not leave output for invalid input or overwrite an
+existing output file. The output parent directory must exist. Configure the
+training pipeline to compute loss only on `completion`, excluding all prompt
+tokens, including previous assistant replies.
+
 ## Configuration
 
 Set the API base URL in the existing [generation] section of the chosen TOML:
