@@ -266,12 +266,21 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalize_profile("unknown")
 
-    def test_english_prompts_chinese_output_instruction(self) -> None:
+    def test_prompt_request_preserves_chinese_examples_and_session(self) -> None:
         prepare(self.config)
         _, snapshot, personas, jobs = load_run(self.config.run_dir)
         persona = next(p for p in personas if p["persona_id"] == jobs[0]["persona_id"])
         request = make_request(snapshot, persona, jobs[0])
-        self.assertTrue(json.dumps(request, ensure_ascii=False).isascii())
+        system = request["input"][0]["content"]
+        user = request["input"][1]["content"]
+        self.assertEqual(system, self.config.resources["prompts/system.txt"])
+        self.assertIn("是长凳吗？", system)
+        self.assertIn("慢慢想。", system)
+        self.assertIn(json.dumps(persona, ensure_ascii=False, indent=2), user)
+        self.assertNotIn("{persona}", user)
+        self.assertNotIn("{session}", user)
+        self.assertIn('"dialogue_id": "' + jobs[0]["dialogue_id"] + '"', user)
+        self.assertEqual(json.loads(json.dumps(request, ensure_ascii=False)), request)
         self.assertIn("Simplified Chinese", request["input"][0]["content"])
         self.assertFalse(request["store"])
         self.assertEqual(request["model"], self.config.values["generation"]["model"])
@@ -332,6 +341,34 @@ class PipelineTests(unittest.TestCase):
         changed = replace(self.config, values={**self.config.values, "seed": 9})
         with self.assertRaises(ValueError):
             prepare(changed)
+
+    def test_resource_metadata_does_not_change_prompt_snapshot(self) -> None:
+        package = Path(self.temp.name) / "package"
+        shutil.copytree(ROOT / "src/gazetalk_zh", package,
+                        ignore=shutil.ignore_patterns(".DS_Store", "__pycache__"))
+        with patch("gazetalk_zh.config.PACKAGE", package):
+            clean = load_config(ROOT / "configs/pilot_six_rules.toml")
+            (package / "resources/.DS_Store").write_bytes(b"\xff\xfe\x00Finder metadata")
+            with_metadata = load_config(ROOT / "configs/pilot_six_rules.toml")
+        self.assertEqual(clean.resources, with_metadata.resources)
+        self.assertEqual(clean.fingerprint, with_metadata.fingerprint)
+        self.assertNotIn(".DS_Store", with_metadata.resources)
+
+    def test_prompt_change_blocks_resume_before_api_and_preserves_snapshot(self) -> None:
+        prepare(self.config)
+        snapshot_path = self.config.run_dir / "snapshot.json"
+        original = snapshot_path.read_bytes()
+        for name in ("prompts/system.txt", "prompts/session.txt"):
+            with self.subTest(resource=name):
+                resources = {**self.config.resources, name: self.config.resources[name] + "\nChanged instruction.\n"}
+                changed = replace(self.config, resources=resources)
+                self.assertNotEqual(changed.fingerprint, self.config.fingerprint)
+                with patch("gazetalk_zh.generate.OpenAIClient") as client:
+                    with self.assertRaisesRegex(ValueError, "use a new run_dir"):
+                        generate(changed, resume=True)
+                client.assert_not_called()
+                self.assertEqual(snapshot_path.read_bytes(), original)
+                load_run(self.config.run_dir)
 
     def test_invalid_existing_output_and_partial_tail_are_not_skipped(self) -> None:
         self.run_fake(FakeClient())

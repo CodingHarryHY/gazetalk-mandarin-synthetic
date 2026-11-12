@@ -5,8 +5,8 @@ Version: 0.1.4. Status: schema-ordered personas prepared; dialogue generation pe
 This isolated Python package generates fictional therapist-patient conversations
 in Simplified Chinese with mainland China usage. Instructions, configuration,
 persona descriptions, source code, comments, logs, and documentation are English.
-Chinese appears only as dialogue content, language-processing literals, or
-explicit test fixtures. This is a research prototype, not a clinical simulator
+Chinese appears only as dialogue content, language-processing literals,
+explicit prompt examples, or test fixtures. This is a research prototype, not a clinical simulator
 validated against a Mandarin population.
 
 ## Scope and evidence
@@ -14,8 +14,9 @@ validated against a Mandarin population.
 - Six simulation profiles: anomic, conduction, tcmotor, broca, wernicke, global.
 - Three simulation severity bands: mild, moderate, severe. No test-score thresholds.
 - Independent complete conversations, generated in one Responses API request.
-- Default 10-40 speaker turns, with a therapist opening and alternating roles.
-  Odd and even lengths are allowed; either speaker may end naturally.
+- Structural validation supports 10-40 speaker turns with alternating roles.
+  The six-rule generation prompt requests an even length, a therapist opening,
+  and a patient closing turn; these additional prompt requirements need review.
 - Five support strategies and 15 topics, listed in [design.md](docs/design.md).
 - Fictional personas from authored rules and a fixed seed, without an LLM.
 - No restricted transcripts, patient examples, or participant records are ingested.
@@ -29,6 +30,54 @@ The [profile evidence register](docs/profile-evidence.md) maps each behaviour
 field to background sources or an explicit author choice. The [text-only profile
 review](docs/profile-review.md) records a non-clinical inspection of the previous
 12-dialogue pilot and the rubric for reviewing new output.
+
+## Six-rule generation prompt (2026-11-11)
+
+The active bundled prompts are `src/gazetalk_zh/resources/prompts/system.txt`
+and `session.txt`. They specify topic persistence, cued guessing (one candidate
+per turn, at most three guesses per item), no known-answer test questions,
+carry-on when meaning is understood, patient-led topic transitions, and
+reflection at personally significant moments. They also prevent the therapist
+from using persona facts before the patient introduces them.
+
+This project keeps its agreed response format: one question about one point,
+no separate declarative sentence before it, and an optional brief supportive
+phrase afterwards. This intentionally differs from the prototype's
+comment-first variants. Complete submitted patient messages are simulated;
+real-time silent waiting actions are outside this dataset's scope. The patient
+closes each generated dialogue so the therapist's question is not left dangling.
+
+`configs/pilot_six_rules.toml` preserves the current pilot settings (60 personas,
+50 dialogues each, 3000 dialogues total) with a new run directory,
+`runs/pilot_six_rules_v1`. It reads the API key from `OPENAI_API_KEY`.
+Existing `pilot.toml`, runs, snapshots, and data partitions are not overwritten.
+
+From the repository root, after setting `OPENAI_API_KEY` locally:
+
+```bash
+# Offline: prepare personas, planned jobs, and the immutable prompt snapshot.
+PYTHONPATH=src .venv/bin/python -B -m gazetalk_zh.cli plan --config configs/pilot_six_rules.toml
+
+# Paid API generation; run only after reviewing the prompts and configuration.
+PYTHONPATH=src .venv/bin/python -B -m gazetalk_zh.cli generate --config configs/pilot_six_rules.toml
+
+# Resume an interrupted run with exactly the same configuration and resources.
+PYTHONPATH=src .venv/bin/python -B -m gazetalk_zh.cli generate --config configs/pilot_six_rules.toml --resume
+
+# Structural and descriptive checks after generation.
+PYTHONPATH=src .venv/bin/python -B -m gazetalk_zh.cli validate --run runs/pilot_six_rules_v1
+PYTHONPATH=src .venv/bin/python -B -m gazetalk_zh.cli evaluate --run runs/pilot_six_rules_v1
+```
+
+Once `plan` creates a snapshot, changing the prompts, catalogs, configuration,
+or pipeline source requires a new `run_dir`. Do not resume an old run with
+these new prompts. Review and edit settings before planning.
+
+These changes update generation instructions, not the output schema or semantic
+acceptance checks. `validate`/`evaluate` cannot certify the six conversation
+rules, the one-question requirement, or clinical quality. Human review is still
+required. Existing datasets and the separate fine-tuning workflow retain their
+previous versions until explicitly migrated.
 
 ## Environment and commands
 
