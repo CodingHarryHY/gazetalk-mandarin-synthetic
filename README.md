@@ -121,6 +121,38 @@ All relative asset paths and run_dir in TOML resolve relative to the config file
 not the current directory. Package prompts and schemas are bundled resources;
 the editable catalogs and run configs remain explicit files.
 
+## Dialogue dataset splitting
+
+Split complete dialogues into training, validation, and test sets before any
+prompt/completion conversion. Run from the repository root:
+
+~~~bash
+uv run python -m gazetalk_zh.split_dialogues \
+  --input runs/pilot_six_rules_v2/dialogues.jsonl \
+  --output data_partitions/pilot_six_rules_v2 \
+  --seed 42
+~~~
+
+The splitter groups by `profile`, sorts each group by `dialogue_id`, and shuffles
+with a local seeded random generator. Per-profile slice boundaries are
+`floor(0.8*n)` and `floor(0.9*n)`; the remainder goes to test. Each profile needs
+at least 10 dialogues. The three final sets are also shuffled. For 1,200 dialogues
+with six profiles of 200 each, this produces 960/120/120 dialogues, with
+160/20/20 from each profile. Changing source line order does not change membership.
+
+The new directory contains `train.jsonl`, `validation.jsonl`, `test.jsonl`, and
+`split_manifest.json`. All record fields and complete dialogue strings are kept;
+no prompt/completion samples, quality filtering, or API calls are performed.
+The manifest records source and output SHA-256 hashes, seed, algorithm version,
+counts by profile, coverage checks, and persona overlap. Existing output
+directories are refused, including empty ones. If writing fails, preserve the
+partial directory and retry with a new path; a complete manifest is written last.
+
+Duplicate dialogue IDs and normalized identical complete dialogues are rejected,
+not silently removed. This is a dialogue-level split: a fictional persona may
+appear in multiple sets. It evaluates new conversations, not unseen-patient
+generalization. Source dialogue quality still requires separate review.
+
 ## Prompt/completion conversion
 
 Convert each already-split training, validation, or test JSONL file separately,
